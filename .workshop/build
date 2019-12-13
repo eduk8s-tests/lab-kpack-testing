@@ -29,6 +29,8 @@ git config --global user.name "Your Name"
 
 curl -sL -o /tmp/logs-linux.tgz https://github.com/pivotal/kpack/releases/download/v0.0.5/logs-v0.0.5-linux.tgz
 
+mkdir -p /opt/app-root/bin
+
 tar -C /opt/app-root/bin -xf /tmp/logs-linux.tgz
 
 rm -rf /tmp/logs-linux.tgz
