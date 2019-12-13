@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- https://github.com/eduk8s/workshop-dashboard?ref=develop
+
+namespace: lab-kpack-testing
+
+resources:
+- resources/namespace.yaml
+- resources/registry-replicationcontroller.yaml
+- resources/registry-service.yaml
+- resources/kpack-0.0.5.yaml
+- resources/kpack-clusterbuilder.yaml
+- resources/kpack-user.yaml
+- resources/workshop-rolebinding.yaml

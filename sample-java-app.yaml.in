@@ -1,0 +1,14 @@
+apiVersion: build.pivotal.io/v1alpha1
+kind: Image
+metadata:
+  name: sample-java-app
+spec:
+  tag: registry.${PROJECT_NAMESPACE}.svc.cluster.local/sample-java-app
+  serviceAccount: workshop
+  builder:
+    name: default-builder
+    kind: ClusterBuilder
+  source:
+    git:
+      url: https://github.com/buildpack/sample-java-app
+      revision: master
