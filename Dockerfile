@@ -2,7 +2,7 @@ FROM quay.io/eduk8s/workshop-dashboard:develop
 
 COPY --chown=1001:0 workshop /opt/app-root/workshop
 
-COPY --chown=1001:0 etc/init.d /opt/app-root/etc/
+COPY --chown=1001:0 etc/ /opt/app-root/etc/
 
 COPY --chown=1001:0 src/ /opt/app-root/src/
 
