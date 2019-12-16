@@ -7,7 +7,7 @@ spec:
   serviceAccount: workshop
   builder:
     name: default-builder
-    kind: ClusterBuilder
+    kind: Builder
   source:
     git:
       url: https://github.com/buildpack/sample-java-app

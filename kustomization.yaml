@@ -9,12 +9,12 @@ bases:
 
 resources:
 - resources/namespace.yaml
+- resources/kpack-0.0.5.yaml
 - resources/registry-replicationcontroller.yaml
 - resources/registry-service.yaml
-- resources/kpack-0.0.5.yaml
 - resources/kpack-user.yaml
 - resources/workshop-rolebinding.yaml
-- resources/kpack-clusterbuilder.yaml
+- resources/kpack-builder.yaml
 
 images:
 - name: quay.io/eduk8s/workshop-dashboard
