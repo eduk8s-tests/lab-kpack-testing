@@ -8,6 +8,6 @@ For details on kpack, see:
 
 * https://github.com/pivotal/kpack
 
-For details of pack, the tool which kpack wraps up as a Kubernetes service, see:
+For details of the standalone pack tool, which the kpack build service replicates, see:
 
 * https://github.com/buildpacks/pack
