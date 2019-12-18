@@ -9,7 +9,7 @@ bases:
 
 resources:
 - resources/namespace.yaml
-- resources/registry-replicationcontroller.yaml
+- resources/registry-deployment.yaml
 - resources/registry-service.yaml
 - resources/kpack-user.yaml
 - resources/workshop-rolebinding.yaml
