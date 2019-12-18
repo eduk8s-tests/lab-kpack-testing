@@ -1,1 +1,13 @@
-This is the last page of the workshop. Include in this page a summary of the workshop and any links to resources relevant to the workshop. This ensures anyone doing the workshop has material they can research later to learn more.
+In this workshop you learnt how to use the Container Build Service of kpack to create application container images and deploy them.
+
+For further information about Cloud Native Buildpacks, see:
+
+* https://buildpacks.io/
+
+For details on kpack, see:
+
+* https://github.com/pivotal/kpack
+
+For details of pack, the tool which kpack wraps up as a Kubernetes service, see:
+
+* https://github.com/buildpacks/pack
