@@ -29,6 +29,8 @@ kubectl apply -k github.com/eduk8s-tests/lab-kpack-testing
 
 This will deploy the workshop environment, as well as an image registry, in the namespace `lab-kpack-testing`.
 
+You need to be a cluster admin to create the deployment.
+
 Access
 ------
 
