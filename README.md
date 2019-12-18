@@ -24,7 +24,7 @@ Deployment
 To deploy the workshop environment run:
 
 ```
-kubectl apply -k https://github.com/eduk8s-tests/lab-kpack-testing#develop
+kubectl apply -k github.com/eduk8s-tests/lab-kpack-testing
 ```
 
 This will deploy the workshop environment, as well as an image registry, in the namespace `lab-kpack-testing`.
@@ -52,5 +52,5 @@ Deletion
 When you are finished with the workshop environment run:
 
 ```
-kubectl delete -k https://github.com/eduk8s-tests/lab-kpack-testing#develop
+kubectl delete -k github.com/eduk8s-tests/lab-kpack-testing
 ```
