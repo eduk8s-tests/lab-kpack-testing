@@ -49,8 +49,10 @@ Do not open up access to the workshop environment outside of your local machine.
 Deletion
 --------
 
-When you are finished with the workshop environment run:
+When you are finished with the workshop environment, you can delete it by running:
 
 ```
 kubectl delete -k github.com/eduk8s-tests/lab-kpack-testing
 ```
+
+This will delete the `lab-kpack-testing` namespace.
