@@ -4,7 +4,7 @@ metadata:
   name: sample-java-app
 spec:
   tag: registry.${PROJECT_NAMESPACE}.svc.cluster.local/sample-java-app
-  serviceAccount: workshop
+  serviceAccount: eduk8s
   builder:
     name: default-builder
     kind: Builder

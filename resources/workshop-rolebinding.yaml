@@ -4,8 +4,8 @@ metadata:
   name: kpack-user
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
+  kind: Role
   name: kpack-user
 subjects:
 - kind: ServiceAccount
-  name: workshop
+  name: eduk8s
