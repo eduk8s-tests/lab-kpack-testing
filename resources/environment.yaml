@@ -9,4 +9,3 @@ spec:
     token: lab-kpack-testing
   session:
     username: eduk8s
-    password: eduk8s
