@@ -1,0 +1,92 @@
+apiVersion: training.eduk8s.io/v1alpha1
+kind: Workshop
+metadata:
+  name: lab-kpack-testing
+spec:
+  vendor: eduk8s.io
+  title: Kpack Testing
+  description: Play area for testing kpack
+  url: https://github.com/eduk8s-tests/lab-kpack-testing
+  image: quay.io/eduk8s-tests/lab-kpack-testing:master
+  duration: 1h
+  session:
+    budget: medium
+    patches:
+      spec:
+        containers:
+        - name: workshop
+          resources:
+            requests:
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+    objects:
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      metadata:
+        name: kpack-user
+      rules:
+      - apiGroups:
+        - build.pivotal.io
+        resources:
+        - builds
+        - builders
+        - images
+        - sourceresolvers
+        verbs:
+        - get
+        - list
+        - watch
+        - create
+        - delete
+        - patch
+        - update
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: kpack-user
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: Role
+        name: kpack-user
+      subjects:
+      - kind: ServiceAccount
+        namespace: $(workshop_namespace)
+        name: $(service_account)
+    - apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: registry
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            deployment: registry
+        strategy:
+          type: Recreate
+        template:
+          metadata:
+            labels:
+              deployment: registry
+          spec:
+            containers:
+            - name: registry
+              image: registry.hub.docker.com/library/registry:2.6.1
+              imagePullPolicy: IfNotPresent
+              ports:
+              - containerPort: 5000
+                protocol: TCP
+              env:
+              - name: REGISTRY_STORAGE_DELETE_ENABLED
+                value: "true"
+    - apiVersion: v1
+      kind: Service
+      metadata:
+        name: registry
+      spec:
+        type: ClusterIP
+        ports:
+        - port: 80
+          targetPort: 5000
+        selector:
+          deployment: registry
