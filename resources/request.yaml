@@ -1,7 +1,7 @@
 apiVersion: training.eduk8s.io/v1alpha1
 kind: WorkshopRequest
 metadata:
-  name: lab-markdown-sample
+  name: lab-kpack-testing
 spec:
-  environment: lab-markdown-sample
-  token: lab-markdown-sample
+  environment: lab-kpack-testing
+  token: lab-kpack-testing
