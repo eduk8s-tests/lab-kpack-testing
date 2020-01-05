@@ -6,13 +6,19 @@ This is a workshop for testing application deployment using [kpack](https://gith
 Prerequisites
 -------------
 
-In order to use the workshop, kpack must already have been installed in the Kubernetes cluster you want to use, and be managing builds for all namespaces.
+In order to use the workshop you should have the eduk8s operator installed.
+
+You must also have the kpack operator installed in the Kubernetes cluster you want to use, and have it managing builds for all namespaces.
+
+For installation instructions for the eduk8s operator see:
+
+* https://github.com/eduk8s/eduk8s-operator
 
 For installation instructions for kpack, see:
 
 * https://github.com/pivotal/kpack
 
-You do not need to set up a global `ClusterBuilder` definition, or namespaces service accounts for this workshop. In other words, it is generally sufficient to install kpack by running:
+You do not need to set up a global `ClusterBuilder` definition, or namespaces service accounts for this workshop. In other words, for kpack it is generally sufficient to install kpack by running:
 
 ```
 kubectl apply -f https://github.com/pivotal/kpack/releases/download/v0.0.5/release-0.0.5.yaml
@@ -27,26 +33,15 @@ To deploy the workshop environment run:
 kubectl apply -k github.com/eduk8s-tests/lab-kpack-testing
 ```
 
-This will deploy the workshop environment, as well as an image registry, in the namespace `lab-kpack-testing`.
-
-You need to be a cluster admin to create the deployment.
-
-Access
-------
-
-The workshop environment is not exposed outside of the cluster. To access the workshop environment, first setup up port forwarding to your local machine.
+Then run:
 
 ```
-kubectl port-forward svc/workshop 10080:10080 -n lab-kpack-testing
+kubectl get workshoprequest/lab-kpack-testing
 ```
 
-Then access the workshop environment at:
+This will output the URL to access to workshop environment, as well as the username and password to use when prompted to login to the workshop environment.
 
-```
-http://localhost:10080
-```
-
-Do not open up access to the workshop environment outside of your local machine.
+You need to be a cluster admin to create the deployment using this method.
 
 Deletion
 --------
@@ -56,5 +51,3 @@ When you are finished with the workshop environment, you can delete it by runnin
 ```
 kubectl delete -k github.com/eduk8s-tests/lab-kpack-testing
 ```
-
-This will delete the `lab-kpack-testing` namespace.
