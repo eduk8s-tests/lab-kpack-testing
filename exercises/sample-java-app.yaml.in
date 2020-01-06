@@ -3,10 +3,10 @@ kind: Image
 metadata:
   name: sample-java-app
 spec:
-  tag: registry.${PROJECT_NAMESPACE}.svc.cluster.local/sample-java-app
-  serviceAccount: eduk8s
+  tag: registry.${SESSION_NAMESPACE}.svc.cluster.local/sample-java-app
+  serviceAccount: kpack-builder
   builder:
-    name: default-builder
+    name: builder
     kind: Builder
   source:
     git:
