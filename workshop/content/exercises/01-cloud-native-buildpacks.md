@@ -40,7 +40,7 @@ kubectl create serviceaccount kpack-builder
 
 If you did have a secret, you would need to create the service account from a raw resource definition, or patch it after it was created, to add the appropriate reference to the secret in it.
 
-To set up a build, we now need to create an ``Image`` resources. This tells kpack about the source code for our application and which builder definition to use to work out how to build it. To view the ``Image`` definition in the current directory, run:
+To set up a build, we now need to create an ``Image`` resource. This tells kpack about the source code for our application and which builder definition to use to work out how to build it. To view the ``Image`` definition in the current directory, run:
 
 ```execute-1
 cat sample-java-app.yaml
@@ -75,7 +75,6 @@ and, the image registry to which to push the results, and the name of the image,
 
 ```
 tag: registry.%session_namespace%.svc.cluster.local/sample-java-app
-serviceAccount: kpack-builder
 ```
 
 This definition has been automatically filled out with the address of the local image registry deployed to the namespace you are working in.
@@ -86,10 +85,10 @@ To setup and run the initial image build, run:
 kubectl apply -f sample-java-app.yaml
 ```
 
-This will take some time to build the first time. You can monitor its progress by the kpack ``logs`` command.
+This will take some time to build the first time. You can monitor progress by running the kpack ``logs`` command.
 
 ```execute-1
 logs --namespace %session_namespace% --image sample-java-app
 ```
 
-**We are going to stop here for the moment as is enough to demonstrate eduk8s, which is the purpose of the test workshop at present.**
+**We are going to stop here for the moment as it is enough to demonstrate eduk8s, which is the purpose of the test workshop at present.**
