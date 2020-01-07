@@ -43,7 +43,7 @@ If you did have a secret, you would need to create the service account from a ra
 To set up a build, we now need to create an ``Image`` resource. This tells kpack about the source code for our application and which builder definition to use to work out how to build it. To view the ``Image`` definition in the current directory, run:
 
 ```execute-1
-cat sample-java-app.yaml
+cat image.yaml
 ```
 
 You will see that it contains:
@@ -82,7 +82,7 @@ This definition has been automatically filled out with the address of the local 
 To setup and run the initial image build, run:
 
 ```execute-1
-kubectl apply -f sample-java-app.yaml
+kubectl apply -f image.yaml
 ```
 
 This will take some time to build the first time. You can monitor progress by running the kpack ``logs`` command.
@@ -91,4 +91,46 @@ This will take some time to build the first time. You can monitor progress by ru
 logs --namespace %session_namespace% --image sample-java-app
 ```
 
-**We are going to stop here for the moment as it is enough to demonstrate eduk8s, which is the purpose of the test workshop at present.**
+When the build has completed and the logs show:
+
+```
+Build successful
+```
+
+interrupt the tailing of the logs:
+
+```execute-1
+<ctrl-c>
+```
+
+At this point the built image has been uploaded to the local image registry. You can inspect details of the image by running:
+
+```execute-1
+skopeo inspect --tls-verify=false docker://registry.$SESSION_NAMESPACE.svc.cluster.local/sample-java-app
+```
+
+The set of resources to deploy the image can be viewed by running:
+
+```execute-1
+cat deployment.yaml
+```
+
+The ``image`` field for the container references the local image registry. Note, that the IP of the image registry is used as lookup by DNS for the service name of the image registry will not usually work in a typical Kubernetes cluster in this case.
+
+Deploy the application using the image by running:
+
+```execute-1
+kubectl apply -f deployment.yaml
+```
+
+Monitor the deployment using:
+
+```execute-1
+kubectl rollout status deployment/sample-java-app
+```
+
+When the deployment is complete, you can access it using:
+
+```execute-1
+curl http://%session_namespace%-app.%ingress_domain%
+```
