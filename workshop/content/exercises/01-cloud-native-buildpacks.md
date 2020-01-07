@@ -129,8 +129,12 @@ Monitor the deployment using:
 kubectl rollout status deployment/sample-java-app
 ```
 
-When the deployment is complete, you can access it using:
+When the deployment is complete, you can test access by running:
 
 ```execute-1
-curl http://%session_namespace%-app.%ingress_domain%
+curl http://sample-java-app.%session_namespace%.svc.cluster.local:8080
 ```
+
+or from your browser by visiting:
+
+* http://%session_namespace%-app.%ingress_domain%
