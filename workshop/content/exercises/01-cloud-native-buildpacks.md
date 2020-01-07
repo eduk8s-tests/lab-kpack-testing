@@ -135,6 +135,8 @@ When the deployment is complete, you can test access by running:
 curl http://sample-java-app.%session_namespace%.svc.cluster.local:8080
 ```
 
-or from your browser by visiting:
+Keep trying this command as it may take a few moments for the Java application to start up.
+
+You can also test access from your browser by visiting:
 
 * http://%session_namespace%-app.%ingress_domain%
