@@ -1,45 +1,47 @@
-- apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: sample-java-app
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        deployment: sample-java-app
-    template:
-      metadata:
-        labels:
-          deployment: sample-java-app
-      spec:
-        containers:
-        - name: sample-java-app
-          image: ${REGISTRY_IP}/sample-java-app:latest
-          imagePullPolicy: IfNotPresent
-          ports:
-          - containerPort: 8080
-            protocol: TCP
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: sample-java-app
-  spec:
-    type: ClusterIP
-    ports:
-    - port: 8080
-      targetPort: 8080
-    selector:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-java-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
       deployment: sample-java-app
-- apiVersion: extensions/v1beta1
-  kind: Ingress
-  metadata:
-    name: sample-java-app
-  spec:
-    rules:
-    - host: ${SESSION_NAMESPACE}-app.${INGRESS_DOMAIN}
-      http:
-        paths:
-        - path: "/"
-          backend:
-            serviceName: sample-java-app
-            servicePort: 8080
+  template:
+    metadata:
+      labels:
+        deployment: sample-java-app
+    spec:
+      containers:
+      - name: sample-java-app
+        image: ${REGISTRY_IP}/sample-java-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-java-app
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    deployment: sample-java-app
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sample-java-app
+spec:
+  rules:
+  - host: ${SESSION_NAMESPACE}-app.${INGRESS_DOMAIN}
+    http:
+      paths:
+      - path: "/"
+        backend:
+          serviceName: sample-java-app
+          servicePort: 8080
