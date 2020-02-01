@@ -3,5 +3,6 @@ kind: WorkshopRequest
 metadata:
   name: lab-kpack-testing
 spec:
-  environment: lab-kpack-testing
-  token: lab-kpack-testing
+  environment:
+    name: lab-kpack-testing
+    token: lab-kpack-testing
