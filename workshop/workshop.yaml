@@ -1,4 +1,4 @@
-name: Kpack builds
+name: Kpack Testing
 
 modules:
     activate:

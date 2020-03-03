@@ -1,0 +1,9 @@
+apiVersion: training.eduk8s.io/v1alpha1
+kind: TrainingPortal
+metadata:
+  name: lab-kpack-testing
+spec:
+  portal:
+    capacity: 1
+  workshops:
+  - name: lab-kpack-testing
