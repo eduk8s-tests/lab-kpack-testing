@@ -21,7 +21,7 @@ For installation instructions for kpack, see:
 You do not need to set up a global `ClusterBuilder` definition, or namespaces service accounts for this workshop. In other words, for kpack it is generally sufficient to install kpack by running:
 
 ```
-kubectl apply -f https://github.com/pivotal/kpack/releases/download/v0.0.5/release-0.0.5.yaml
+kubectl apply -f https://github.com/pivotal/kpack/releases/download/v0.0.6/release-0.0.6.yaml
 ```
 
 Deployment
@@ -36,10 +36,10 @@ kubectl apply -k github.com/eduk8s-tests/lab-kpack-testing
 Then run:
 
 ```
-kubectl get workshoprequest/lab-kpack-testing
+kubectl get trainingportal/lab-kpack-testing
 ```
 
-This will output the URL to access to workshop environment, as well as the username and password to use when prompted to login to the workshop environment.
+This will output the URL to access the web portal for the training environment.
 
 You need to be a cluster admin to create the deployment using this method.
 
