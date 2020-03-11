@@ -18,7 +18,9 @@ spec:
       console:
         enabled: true
       editor:
-        enabled: true
+        enabled: false
+      slides:
+        enabled: false
     patches:
       spec:
         containers:
