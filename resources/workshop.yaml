@@ -63,6 +63,16 @@ spec:
       - kind: ServiceAccount
         namespace: $(workshop_namespace)
         name: $(service_account)
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: registry
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
     - apiVersion: apps/v1
       kind: Deployment
       metadata:
@@ -89,6 +99,16 @@ spec:
               env:
               - name: REGISTRY_STORAGE_DELETE_ENABLED
                 value: "true"
+              volumeMounts:
+              - name: data
+                mountPath: /var/lib/registry
+            securityContext:
+              runAsUser: 1000
+              fsGroup: 0
+            volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: registry
     - apiVersion: v1
       kind: Service
       metadata:

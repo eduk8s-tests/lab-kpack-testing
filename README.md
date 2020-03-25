@@ -21,7 +21,7 @@ For installation instructions for kpack, see:
 You do not need to set up a global `ClusterBuilder` definition, or namespaces service accounts for this workshop. In other words, for kpack it is generally sufficient to install kpack by running:
 
 ```
-kubectl apply -f https://github.com/pivotal/kpack/releases/download/v0.0.6/release-0.0.6.yaml
+kubectl apply -f https://github.com/pivotal/kpack/releases/download/v0.0.7/release-0.0.7.yaml
 ```
 
 Deployment
