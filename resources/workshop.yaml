@@ -22,14 +22,13 @@ spec:
       slides:
         enabled: false
     patches:
-      spec:
-        containers:
-        - name: workshop
-          resources:
-            requests:
-              memory: 256Mi
-            limits:
-              memory: 512Mi
+      containers:
+      - name: workshop
+        resources:
+          requests:
+            memory: 256Mi
+          limits:
+            memory: 512Mi
     objects:
     - apiVersion: rbac.authorization.k8s.io/v1
       kind: Role
