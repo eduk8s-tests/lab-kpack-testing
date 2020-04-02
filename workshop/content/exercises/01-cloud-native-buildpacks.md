@@ -128,7 +128,7 @@ interrupt the tailing of the logs:
 At this point the built image has been uploaded to the local image registry. You can inspect details of the image by running:
 
 ```execute-1
-skopeo inspect docker://$SESSION_NAMESPACE-registry.${INGRESS_DOMAIN}/sample-java-app
+skopeo inspect docker://%session_namespace%-registry.%ingress_domain%/sample-java-app
 ```
 
 The set of resources to deploy the image can be viewed by running:
