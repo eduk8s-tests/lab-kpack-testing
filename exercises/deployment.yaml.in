@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: sample-java-app
-        image: ${REGISTRY_IP}/sample-java-app:latest
+        image: ${SESSION_NAMESPACE}-registry.${INGRESS_DOMAIN}/sample-java-app:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

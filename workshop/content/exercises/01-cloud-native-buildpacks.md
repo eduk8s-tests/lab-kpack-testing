@@ -1,4 +1,4 @@
-**Note this is very much work in progress and is just a snapshot of commands required to test use of kpack. A lot more work needs to be done to complete the workshop.**
+**Note this is very much work in progress and is just a snapshot of commands required to test use of kpack. A lot more work needs to be done to complete the workshop. The workshop will only work when deployed under the training portal and with secure ingress.**
 
 Before starting, change to the ``exercises`` sub directory. This contains files you will need to perform the exercises.
 
@@ -30,17 +30,33 @@ The command should output:
 builder.build.pivotal.io/builder created
 ```
 
-Normally when using kpack you need to create a secret with the credentials for the image registry where built images will be stored. In this workshop environment an image registry has been deployed into the namespace used by your workshop session. This image registry has no access controls set up, so credentials are not required. We will therefore skip creation of the secret.
-
 Next we need to create a service account in your namespace which builds will be run as. To do that run:
 
 ```execute-1
 kubectl create serviceaccount kpack-builder
 ```
 
-If you did have a secret, you would need to create the service account from a raw resource definition, or patch it after it was created, to add the appropriate reference to the secret in it.
+Builds run as this service account will need to have access to an image registry into which to store build artefacts and the final application image.
 
-To set up a build, we now need to create an ``Image`` resource. This tells kpack about the source code for our application and which builder definition to use to work out how to build it. To view the ``Image`` definition in the current directory, run:
+For this workshop, an image registry has been deployed for you. The credentials for accessing this image registry are stored in the file ``$HOME/.docker/config.json``. To view the contents run:
+
+```execute-1
+cat $HOME/.docker/config.json
+```
+
+To make these credentials available to the service account, they first need to be packaged up as a secret.
+
+```execute-1
+kubectl create secret generic registry-credentials --from-file=.dockerconfigjson=$HOME.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
+
+The builder service account then needs to be linked to the secret containing the credentials.
+
+```execute-1
+kubectl patch serviceaccount/kpack-builder -p '{"secrets":[]{"name":"registry-credentials"}]}'
+```
+
+To set up the build, we now need to create an ``Image`` resource. This tells kpack about the source code for our application and which builder definition to use to work out how to build it. To view the ``Image`` definition in the current directory, run:
 
 ```execute-1
 cat image.yaml
@@ -74,7 +90,7 @@ serviceAccount: kpack-builder
 and, the image registry to which to push the results, and the name of the image, are defined by:
 
 ```
-tag: registry.%session_namespace%.svc.cluster.local/sample-java-app
+tag: %session_namespace%-registry.%ingress_domain%/sample-java-app
 ```
 
 This definition has been automatically filled out with the address of the local image registry deployed to the namespace you are working in.
@@ -106,7 +122,7 @@ interrupt the tailing of the logs:
 At this point the built image has been uploaded to the local image registry. You can inspect details of the image by running:
 
 ```execute-1
-skopeo inspect --tls-verify=false docker://registry.$SESSION_NAMESPACE.svc.cluster.local/sample-java-app
+skopeo inspect docker://$SESSION_NAMESPACE-registry.${INGRESS_DOMAIN}/sample-java-app
 ```
 
 The set of resources to deploy the image can be viewed by running:

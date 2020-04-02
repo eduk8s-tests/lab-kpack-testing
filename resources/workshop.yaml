@@ -29,6 +29,16 @@ spec:
             memory: 256Mi
           limits:
             memory: 512Mi
+        volumeMounts:
+        - name: registry
+          mountPath: /var/run/registry
+      volumes:
+      - name: registry
+        configMap:
+          name: $(session_namespace)-registry
+          items:
+          - key: config.json
+            path: config.json
     objects:
     - apiVersion: rbac.authorization.k8s.io/v1
       kind: Role
@@ -65,28 +75,46 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
-        name: registry
+        namespace: $(workshop_namespace)
+        name: $(session_namespace)-registry
       spec:
         accessModes:
         - ReadWriteOnce
         resources:
           requests:
             storage: 5Gi
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        namespace: $(workshop_namespace)
+        name: $(session_namespace)-registry
+      data:
+        htpasswd: |-
+          eduk8s:$2y$05$Oe5Khp7HbllL1oANqmCPSOy1O656z9Z6ETv6GI/DblawxnT/qVUjK
+        config.json: |-
+          {
+            "auths": {
+               "$(session_namespace)-registry.$(ingress_domain)": {
+                 "auth": "ZWR1azhzOmVkdWs4cw=="
+               }
+            }
+          }
     - apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: registry
+        namespace: $(workshop_namespace)
+        name: $(session_namespace)-registry
       spec:
         replicas: 1
         selector:
           matchLabels:
-            deployment: registry
+            deployment: $(session_namespace)-registry
         strategy:
           type: Recreate
         template:
           metadata:
             labels:
-              deployment: registry
+              deployment: $(session_namespace)-registry
           spec:
             containers:
             - name: registry
@@ -98,24 +126,59 @@ spec:
               env:
               - name: REGISTRY_STORAGE_DELETE_ENABLED
                 value: "true"
+              - name: REGISTRY_AUTH
+                value: htpasswd
+              - name: REGISTRY_AUTH_HTPASSWD_REALM
+                value: Image Registry
+              - name: REGISTRY_AUTH_HTPASSWD_PATH
+                value: /auth/htpasswd
               volumeMounts:
               - name: data
                 mountPath: /var/lib/registry
+              - name: auth
+                mountPath: /auth
             securityContext:
               runAsUser: 1000
               fsGroup: 0
             volumes:
             - name: data
               persistentVolumeClaim:
-                claimName: registry
+                claimName: $(session_namespace)-registry
+            - name: auth
+              configMap:
+                name: $(session_namespace)-registry
+                items:
+                - key: htpasswd
+                  path: htpasswd
     - apiVersion: v1
       kind: Service
       metadata:
-        name: registry
+        namespace: $(workshop_namespace)
+        name: $(session_namespace)-registry
       spec:
         type: ClusterIP
         ports:
-        - port: 80
+        - port: 5000
           targetPort: 5000
         selector:
-          deployment: registry
+          deployment: $(session_namespace)-registry
+    - apiVersion: extensions/v1beta1
+      kind: Ingress
+      metadata:
+        namespace: $(workshop_namespace)
+        name: $(session_namespace)-registry
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: 512m
+      spec:
+        rules:
+        - host: $(session_namespace)-registry.$(ingress_domain)
+          http:
+            paths:
+            - path: "/"
+              backend:
+                serviceName: $(session_namespace)-registry
+                servicePort: 5000
+        tls:
+        - hosts:
+          - "*.$(ingress_domain)"
+          secretName: "$(ingress_secret)"

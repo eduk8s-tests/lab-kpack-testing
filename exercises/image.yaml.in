@@ -3,7 +3,7 @@ kind: Image
 metadata:
   name: sample-java-app
 spec:
-  tag: registry.${SESSION_NAMESPACE}.svc.cluster.local/sample-java-app
+  tag: ${SESSION_NAMESPACE}-registry.${INGRESS_DOMAIN}/sample-java-app
   serviceAccount: kpack-builder
   builder:
     name: builder

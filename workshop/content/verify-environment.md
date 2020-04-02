@@ -27,17 +27,3 @@ kubectl auth can-i create image.build.pivotal.io
 ```
 
 If kpack has been installed correctly and is available to the workshop environment, the result of the above command should have been ``yes``.
-
-For your workshop session, a local instance of a container image registry has also been deployed to the project namespace you are working in. This will be used to hold the container images created by the build service.
-
-To verify that the image registry is deployed and running, run:
-
-```execute-1
-kubectl rollout status deployment/registry
-```
-
-When the registry is up and running, this should display:
-
-```
-deployment "registry" successfully rolled out
-```
