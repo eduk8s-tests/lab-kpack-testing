@@ -47,13 +47,19 @@ cat $HOME/.docker/config.json
 To make these credentials available to the service account, they first need to be packaged up as a secret.
 
 ```execute-1
-kubectl create secret generic registry-credentials --from-file=.dockerconfigjson=$HOME.docker/config.json --type=kubernetes.io/dockerconfigjson
+kubectl create secret generic registry-credentials --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson
 ```
 
 The builder service account then needs to be linked to the secret containing the credentials.
 
 ```execute-1
-kubectl patch serviceaccount/kpack-builder -p '{"secrets":[]{"name":"registry-credentials"}]}'
+kubectl patch serviceaccount/kpack-builder -p '{"secrets":[{"name":"registry-credentials"}]}'
+```
+
+To review the changes made to the service account run:
+
+```execute-1
+kubectl get serviceaccount/kpack-builder -o yaml
 ```
 
 To set up the build, we now need to create an ``Image`` resource. This tells kpack about the source code for our application and which builder definition to use to work out how to build it. To view the ``Image`` definition in the current directory, run:
