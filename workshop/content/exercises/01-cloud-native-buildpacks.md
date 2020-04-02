@@ -137,7 +137,7 @@ The set of resources to deploy the image can be viewed by running:
 cat deployment.yaml
 ```
 
-The ``image`` field for the container references the local image registry. Note, that the IP of the image registry is used as lookup by DNS for the service name of the image registry will not usually work in a typical Kubernetes cluster in this case.
+The ``image`` field for the container references the local image registry. Because the deployment needs to be able to access the image registry, for convenience, the same service account used to do the build is used for the deployment so the image can be pulled.
 
 Deploy the application using the image by running:
 
