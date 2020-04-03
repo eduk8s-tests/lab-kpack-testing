@@ -12,7 +12,8 @@ spec:
       labels:
         deployment: sample-java-app
     spec:
-      serviceAccountName: kpack-builder
+      imagePullSecrets:
+      - name: registry-credentials
       containers:
       - name: sample-java-app
         image: ${SESSION_NAMESPACE}-registry.${INGRESS_DOMAIN}/sample-java-app:latest

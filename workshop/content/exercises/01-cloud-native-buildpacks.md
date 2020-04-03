@@ -137,7 +137,9 @@ The set of resources to deploy the image can be viewed by running:
 cat deployment.yaml
 ```
 
-The ``image`` field for the container references the local image registry. Because the deployment needs to be able to access the image registry, for convenience, the same service account used to do the build is used for the deployment so the image can be pulled.
+The ``image`` field for the container references the local image registry.
+
+Because the deployment needs to be able to access the image registry, a reference to the secret with the credentials for pulling the image is included as ``imagePullSecrets``.
 
 Deploy the application using the image by running:
 
