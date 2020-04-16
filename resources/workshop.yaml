@@ -139,7 +139,6 @@ spec:
                 mountPath: /auth
             securityContext:
               runAsUser: 1000
-              fsGroup: 0
             volumes:
             - name: data
               persistentVolumeClaim:
