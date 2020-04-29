@@ -1,4 +1,4 @@
-apiVersion: training.eduk8s.io/v1alpha1
+apiVersion: training.eduk8s.io/v1alpha2
 kind: Workshop
 metadata:
   name: lab-kpack-testing
@@ -7,7 +7,9 @@ spec:
   title: Kpack Testing
   description: Play area for testing kpack
   url: https://github.com/eduk8s-tests/lab-kpack-testing
-  image: quay.io/eduk8s-tests/lab-kpack-testing:master
+  content:
+    image: quay.io/eduk8s-tests/lab-kpack-testing:master
+    #files: github.com/eduk8s-tests/lab-kpack-testing
   duration: 1h
   session:
     budget: medium
