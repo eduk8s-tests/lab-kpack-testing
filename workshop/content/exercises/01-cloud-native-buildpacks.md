@@ -96,7 +96,7 @@ serviceAccount: kpack-builder
 and, the image registry to which to push the results, and the name of the image, are defined by:
 
 ```
-tag: %session_namespace%-registry.%ingress_domain%/sample-java-app
+tag: {{session_namespace}}-registry.{{ingress_domain}}/sample-java-app
 ```
 
 This definition has been automatically filled out with the address of the local image registry deployed to the namespace you are working in.
@@ -110,7 +110,7 @@ kubectl apply -f image.yaml
 This will take some time to build the first time. You can monitor progress by running the kpack ``logs`` command.
 
 ```execute-1
-logs --namespace %session_namespace% --image sample-java-app
+logs --namespace {{session_namespace}} --image sample-java-app
 ```
 
 When the build has completed and the logs show:
@@ -128,7 +128,7 @@ interrupt the tailing of the logs:
 At this point the built image has been uploaded to the local image registry. You can inspect details of the image by running:
 
 ```execute-1
-skopeo inspect docker://%session_namespace%-registry.%ingress_domain%/sample-java-app
+skopeo inspect docker://{{session_namespace}}-registry.{{ingress_domain}}/sample-java-app
 ```
 
 The set of resources to deploy the image can be viewed by running:
@@ -156,11 +156,11 @@ kubectl rollout status deployment/sample-java-app
 When the deployment is complete, you can test access by running:
 
 ```execute-1
-curl http://sample-java-app.%session_namespace%.svc.cluster.local:8080
+curl http://sample-java-app.{{session_namespace}}.svc.cluster.local:8080
 ```
 
 Keep trying this command as it may take a few moments for the Java application to start up.
 
 You can also test access from your browser by visiting:
 
-* http://%session_namespace%-app.%ingress_domain%
+* http://{{session_namespace}}-app.{{ingress_domain}}
